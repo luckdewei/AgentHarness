@@ -1,4 +1,6 @@
 import json
+
+from langsmith import traceable
 from config import Config
 from llm import LLM
 from prompt import get_system_prompt
@@ -6,6 +8,7 @@ from tools.executor import execute_tool
 from utils import assistant_message_dict
 
 
+@traceable(name="agent_loop")
 def agent_loop(messages: list):
     config = Config()
     llm_client = LLM()
