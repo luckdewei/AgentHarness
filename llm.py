@@ -2,6 +2,8 @@ from config import Config
 import openai
 from langsmith.wrappers import wrap_openai
 
+from tools.schema import tools
+
 client = wrap_openai(openai.Client())
 
 
@@ -29,7 +31,7 @@ class LLM:
             # 将系统提示和传入的消息列表组合成messages参数
             messages=[{"role": "system", "content": system}, *messages],
             # 传入工具集合
-            tools=[],
+            tools=tools,
             # 传入最大允许的token数
             max_tokens=max_tokens,
         )

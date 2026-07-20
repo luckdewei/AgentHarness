@@ -2,6 +2,7 @@ import json
 from config import Config
 from llm import LLM
 from prompt import get_system_prompt
+from tools.executor import execute_tool
 from utils import assistant_message_dict
 
 
@@ -31,4 +32,13 @@ def agent_loop(messages: list):
             # 获取工具参数
             # 获取解析工具参数
             args = json.loads(tool_call.function.arguments or "{}")
-            # 调用工具
+            # 打印工具名称（蓝色高亮）
+            print(
+                f"\x1b[36m> {tool_name} {json.dumps(args, ensure_ascii=False)}\x1b[0m"
+            )
+            # 执行工具，获取输出结果
+            output = execute_tool(tool_name, args)
+            # 把工具执行结果以特定格式加入消息列表
+            messages.append(
+                {"role": "tool", "tool_call_id": tool_call.id, "content": output}
+            )
