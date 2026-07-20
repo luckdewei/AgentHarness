@@ -1,13 +1,18 @@
 from config import Config
-from openai import OpenAI
+import openai
+from langsmith.wrappers import wrap_openai
+
+client = wrap_openai(openai.Client())
 
 
 class LLM:
     def __init__(self):
         config = Config()
-        self.client = OpenAI(
-            base_url=config.OPENAI_BASE_URL,
-            api_key=config.OPENAI_API_KEY,
+        self.client = wrap_openai(
+            openai.Client(
+                base_url=config.OPENAI_BASE_URL,
+                api_key=config.OPENAI_API_KEY,
+            )
         )
 
     def call_llm(self, system: str, messages: list, max_tokens: int, model: str):

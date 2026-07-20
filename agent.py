@@ -1,3 +1,4 @@
+import json
 from config import Config
 from llm import LLM
 from prompt import get_system_prompt
@@ -23,3 +24,11 @@ def agent_loop(messages: list):
         # 如果助手没有工具调用，则终止循环
         if not assistant.tool_calls:
             return
+        # 如果助手有工具调用，则调用工具
+        for tool_call in assistant.tool_calls:
+            # 获取工具名称
+            tool_name = tool_call.function.name
+            # 获取工具参数
+            # 获取解析工具参数
+            args = json.loads(tool_call.function.arguments or "{}")
+            # 调用工具
