@@ -4,8 +4,6 @@ from langsmith.wrappers import wrap_openai
 
 from tools.schema import tools
 
-client = wrap_openai(openai.Client())
-
 
 class LLM:
     def __init__(self):

@@ -29,5 +29,28 @@ tools = [
         "执行一条 shell 命令。",
         {"command": {"type": "string"}},
         ["command"],
-    )
+    ),
+    _fn_tool(
+        "read_file",
+        "读取文件内容。",
+        {"path": {"type": "string"}, "limit": {"type": "integer"}},
+        ["path", "limit"],
+    ),
+    _fn_tool(
+        "write_file",
+        "写入文件内容。",
+        {
+            "path": {"type": "string"},
+            "old_content": {"type": "string"},
+            "new_content": {"type": "string"},
+        },
+        ["path", "old_content", "new_content"],
+    ),
+    # 定义使用 glob 模式查找文件的工具，参数为 pattern（字符串类型）
+    _fn_tool(
+        "glob",
+        "按 glob 模式查找文件",
+        {"pattern": {"type": "string"}},
+        ["pattern"],
+    ),
 ]
