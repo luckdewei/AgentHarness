@@ -24,13 +24,6 @@ def run_bash_command(command: str) -> str:
         # 将命令更改为Windows下同时输出日期和时间的命令
         command = "date /t & time /t"
 
-    # 定义危险命令的列表
-    dangerous = ["rm -rf /", "sudo", "shutdown", "reboot", "> /dev/"]
-    # 如果命令中包含任何一个危险命令
-    if any(d in command for d in dangerous):
-        # 返回错误提示，拦截执行危险命令
-        return "错误：危险命令已被拦截"
-
     # 尝试执行命令，捕获异常
     try:
         # 使用subprocess.run运行命令
