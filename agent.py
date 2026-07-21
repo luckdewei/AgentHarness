@@ -3,6 +3,7 @@ import json
 from langsmith import traceable
 from config import Config
 from llm import LLM
+from permission import check_permission
 from prompt import get_system_prompt
 from tools.executor import execute_tool
 from utils import assistant_message_dict
@@ -39,6 +40,20 @@ def agent_loop(messages: list):
             print(
                 f"\x1b[36m> {tool_name} {json.dumps(args, ensure_ascii=False)}\x1b[0m"
             )
+
+            # 检查工具执行权限
+            permission = check_permission(tool_name, args)
+            if permission is not None:
+                print(f"\n\x1b[31m⛔ 权限检查未通过：{permission}\x1b[0m")
+                messages.append(
+                    {
+                        "role": "tool",
+                        "tool_call_id": tool_call.id,
+                        "content": permission + ".",
+                    }
+                )
+                # 跳过本次工具调用，继续下一个
+                continue
             # 执行工具，获取输出结果
             output = execute_tool(tool_name, args)
             # 把工具执行结果以特定格式加入消息列表
