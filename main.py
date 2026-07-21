@@ -1,5 +1,6 @@
 # 导入 agent_loop 函数从 agent 模块
 from agent import agent_loop
+from hooks import trigger_user_prompt_hooks
 
 
 # 定义主函数
@@ -20,6 +21,8 @@ def main():
         # 如果输入为空，或者用户输入了 'q' 或 'exit'，则退出循环
         if query.strip().lower() in ("q", "exit", ""):
             break
+        # 触发'UserPromptSubmit'钩子，进行前置处理，返回处理后的用户输入
+        query = trigger_user_prompt_hooks(query)
         # 将用户输入添加到历史消息列表
         history.append({"role": "user", "content": query})
         # 调用代理循环处理用户和历史消息
