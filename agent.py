@@ -65,6 +65,8 @@ def agent_loop(messages: list):
                 continue
             # 执行工具，获取输出结果
             output = execute_tool(tool_name, args)
+            # 触发PostToolUse钩子，并进行后置处理
+            trigger_hooks("PostToolUse", tool_name, args, output)
             # 把工具执行结果以特定格式加入消息列表
             messages.append(
                 {"role": "tool", "tool_call_id": tool_call.id, "content": output}
