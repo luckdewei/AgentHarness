@@ -4,10 +4,11 @@ from langsmith.wrappers import wrap_openai
 
 from tools.schema import tools
 
+config = Config()
+
 
 class LLM:
     def __init__(self):
-        config = Config()
         self.client = wrap_openai(
             openai.Client(
                 base_url=config.OPENAI_BASE_URL,

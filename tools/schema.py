@@ -23,22 +23,22 @@ def _fn_tool(
 
 
 # 定义一个工具列表，包含一个通过_fn_tool函数生成的工具：bash命令执行
-tools = [
+base_tools = [
     _fn_tool(
         "bash",
-        "执行一条 shell 命令。",
+        "执行一条 shell 命令",
         {"command": {"type": "string"}},
         ["command"],
     ),
     _fn_tool(
         "read_file",
-        "读取文件内容。",
+        "读取文件内容",
         {"path": {"type": "string"}, "limit": {"type": "integer"}},
         ["path", "limit"],
     ),
     _fn_tool(
         "write_file",
-        "写入文件内容。",
+        "写入文件内容",
         {
             "path": {"type": "string"},
             "old_content": {"type": "string"},
@@ -53,9 +53,20 @@ tools = [
         {"pattern": {"type": "string"}},
         ["pattern"],
     ),
+]
+
+
+tools = [
+    *base_tools,
+    _fn_tool(
+        "spawn_subagent",
+        "启动子 Agent 处理复杂子任务。仅返回最终结论",
+        {"description": {"type": "string"}},
+        ["description"],
+    ),
     _fn_tool(
         "todo_write",  # 名称
-        "创建并管理当前编码会话的任务列表。",  # 描述
+        "创建并管理当前编码会话的任务列表",  # 描述
         {
             "todos": {
                 "type": "array",
