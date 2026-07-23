@@ -53,4 +53,29 @@ tools = [
         {"pattern": {"type": "string"}},
         ["pattern"],
     ),
+    _fn_tool(
+        "todo_write",  # 名称
+        "创建并管理当前编码会话的任务列表。",  # 描述
+        {
+            "todos": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "content": {"type": "string"},  # 子任务的内容
+                        "status": {  # 子任务的状态
+                            "type": "string",
+                            "enum": [
+                                "pending",  # 待执行
+                                "in_progress",  # 进行中
+                                "completed",  # 已完成
+                            ],
+                        },
+                    },
+                    "required": ["content", "status"],
+                },
+            }
+        },
+        ["todos"],
+    ),
 ]
