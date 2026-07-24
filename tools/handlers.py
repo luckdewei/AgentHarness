@@ -12,6 +12,8 @@ import glob as g
 
 from config import Config
 
+from skills import load_skill
+
 config = Config()
 
 
@@ -133,4 +135,5 @@ tool_handlers = {
     "write_file": run_write_file,
     "glob": run_global_search,
     "todo_write": run_todo_write,
+    "load_skill": load_skill,  # 按名称加载技能的完整内容
 }

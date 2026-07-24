@@ -40,9 +40,29 @@ def safe_path(p: str) -> Path:
     return path
 
 
+# 定义一个extract_text函数，参数为content，返回字符串类型
 def extract_text(content) -> str:
     if content is None:
         return ""
     if isinstance(content, str):
         return content
     return str(content)
+
+
+# 定义parse_frontmatter函数，参数为text，返回一个元组(字典,字符串)
+def parse_frontmatter(text: str) -> tuple[dict, str]:
+    if "---" not in text:
+        return {}, text
+    # 用'---'分割文本，最多分割2次，得到3段内容
+    parts = text.split("---", 2)
+    # 如果分割出来的部分不足3个，说明无有效frontmatter，返回空字典和原始文本
+    if len(parts) < 3:
+        return {}, text
+    meta = {}
+    # 第一段是frontmatter，第二段是正文
+    for line in parts[1].strip().splitlines():
+        if ":" in line:
+            k, v = line.split(":", 1)
+            # 去掉键和值两端空白，并将值两端的引号去除，存入字典
+            meta[k.strip()] = v.strip().strip('"').strip("'")
+    return meta, parts[2].strip()

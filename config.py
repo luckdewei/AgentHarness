@@ -12,8 +12,11 @@ MODEL_ID = os.getenv("MODEL_ID")
 # 定义默认的最大token数
 DEFAULT_MAX_TOKENS = 8000
 
+
 # 定义工作目录为当前目录
 WORKDIR = Path.cwd()
+
+SKILLS_DIR = WORKDIR / "skills"
 
 # 设置默认编码为utf-8
 if os.name == "nt":
